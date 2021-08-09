@@ -1,0 +1,96 @@
+<?php
+    $this->refForm->setAttribute('action', $this->url('admin'). '/reference/add/' . $this->resource->id());
+?>
+
+<div class="ref-container">
+    <h4>References</h4>
+
+    <table class="ref-table">                    
+    <?php foreach($refs as $ref): ?>
+        <?php if($ref->bibl()):?>
+        <tr>
+            <td class="ref-delete-td">
+                <a href="<?php echo $ref->url('delete'); ?>"
+                    data-sidebar-content-url=""
+                    class="o-icon-delete ref-delete"
+                    title="Delete"
+                    onclick="return confirm('Delete reference?')"
+                ></a>
+            </td>
+            <td>
+                <div class="ref-info">
+                    <?php 
+                        $code = $ref->bibl()->value('dcterms:alternative');
+                        if (!$code) {
+                            $code = $ref->bibl()->displayTitle();
+                        }
+                        echo '<a href="' . $ref->bibl()->url() . '">' . $code . '</a>';
+                    ?>, 
+                    <?php echo $ref->ref(); ?>
+                </div>
+                <div class="ref-full-title">
+                    <?php echo $ref->bibl()->value("dcterms:title"); ?>
+                </div>
+            </td>
+        </tr>
+        <?php endif;?>
+    <?php endforeach; ?>
+    </table>
+
+    <a href="#" class="toggleForm">Add reference ⇣</a>                        
+    <div class="ref-form"  style="display: none;">
+        <?php echo $this->form()->openTag($refForm); ?>
+        <?php echo $this->formCollection($refForm, false); ?>
+        <?php echo $this->form()->closeTag(); ?>
+    </div>
+
+</div>
+
+<style>
+    .ref-table {
+        border: 0;
+    }
+    .ref-delete-td {
+        vertical-align: top;
+        width: 2em;
+    }
+    .ref-list {
+        margin: 0;
+        list-style: none;
+    }
+    .ref-delete {
+        margin-right: 1em;
+    }
+    .ref-info {
+        style: inline-block;
+    }
+    .ref-full-title {
+        style: inline-block;
+        font-size: 0.9em;
+    }    
+    .ref-form {
+        padding-top: 0.5em;
+        display: none;
+    }
+    .ref-container {
+        margin: 0.5em;
+        margin-top: 3em;
+        padding: 1em;
+        border-radius: 5px;
+        background-color: rgba(0,0,0,0.04);
+    }
+</style>
+
+<script>
+    $('.toggleForm').click(function(e) {
+        e.preventDefault()
+        const form = e.currentTarget.nextElementSibling
+        if (form.style.display === "none") {
+            form.style.display = "block"
+            e.currentTarget.innerHTML = "Add reference ⇡"
+        } else {
+            form.style.display = "none"
+            e.currentTarget.innerHTML = "Add reference ⇣"
+        }        
+    })
+</script>
