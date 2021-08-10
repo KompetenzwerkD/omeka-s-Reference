@@ -2,6 +2,8 @@
 
 This Omeka S module allows to attach biblographic references to items.
 
+![](_assets/reference.gif)
+
 ## Requirements
 
 Omeka S > 3.0.0
