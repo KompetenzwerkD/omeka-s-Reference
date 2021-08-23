@@ -50,7 +50,7 @@ class NewReferenceForm extends Form
             'type' => Submit::class,
             'attributes' => [
                 'id' => 'submit',
-                'value' => 'Add', // @translate
+                'value' => 'Add', 
             ],
         ]);
     }

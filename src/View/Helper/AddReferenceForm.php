@@ -6,6 +6,8 @@ use Reference\Form\NewReferenceForm;
 use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 
+
+
 class AddReferenceForm extends AbstractHelper
 {
     protected $formElementManager;
@@ -14,13 +16,19 @@ class AddReferenceForm extends AbstractHelper
     {
         $this->formElementManager = $formElementManager;
     }
-
+      
     public function __invoke(AbstractResourceEntityRepresentation $resource)
     {
         $view = $this->getView();
         $form = $this->formElementManager->get(NewReferenceForm::class);
 
         $refs = $view->api()->search('references', [ 'item_id' => $resource->id() ])->getContent();
+
+        usort($refs, function ($a, $b) {
+            $aLabel = strval($a->bibl()->value('dcterms:alternative'));
+            $bLabel = strval($b->bibl()->value('dcterms:alternative'));
+            return $aLabel <=> $bLabel;
+        });
 
         $view->vars()->offsetSet('resource', $resource);
         $view->vars()->offsetSet('refForm', $form);
