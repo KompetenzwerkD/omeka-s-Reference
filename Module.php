@@ -70,7 +70,6 @@ class Module extends AbstractModule
         $conn = $serviceLocator->get('Omeka\Connection');    
         $conn->exec('SET FOREIGN_KEY_CHECKS=0;');
         $conn->exec('DROP TABLE reference');
-        $conn->exec('DROP TABLE reference_setup');
         $conn->exec('SET FOREIGN_KEY_CHECKS=1;');        
     }
 
@@ -188,7 +187,10 @@ class Module extends AbstractModule
             {
                 echo $view->addReferenceForm($view->vars()->resource);
             }
+            elseif ($item->resourceTemplate()->label() == "Bibl") 
+            {
+                echo $view->referencedItemsWidget();
+            }
         }
-
     }
 }

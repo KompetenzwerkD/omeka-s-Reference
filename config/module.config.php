@@ -22,6 +22,7 @@ return [
     ],
     'view_helpers' => [
         'invokables' => [
+            'referencedItemsWidget' => View\Helper\ReferencedItemsWidget::class,
         ],
         'factories' => [
             'addReferenceForm' => Service\ViewHelper\AddReferenceFormFactory::class,

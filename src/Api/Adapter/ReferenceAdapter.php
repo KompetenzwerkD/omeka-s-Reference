@@ -70,5 +70,17 @@ class ReferenceAdapter extends AbstractEntityAdapter
                 ));
             }
         }
+        if (isset($query['bibl_id'])) {
+            if (is_null($query['bibl_id'])) {
+                $qb->andWhere($expr->isNull(
+                    'omeka_root.' . 'bibl',
+                ));
+            } else {
+                $qb->andWhere($expr->eq(
+                    'omeka_root.' . 'bibl',
+                    $this->createNamedParameter($qb, $query['bibl_id'])
+                ));
+            }
+        }        
     }
 }
