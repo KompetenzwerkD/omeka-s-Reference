@@ -177,19 +177,23 @@ class Module extends AbstractModule
     {
         $settings = $this->getServiceLocator()->get('Omeka\Settings');
         $templates = $settings->get('resourceTemplates');
-        $templates = array_map('trim', explode('<br />', nl2br($templates)));
 
-        $view = $event->getTarget();
+        if ($templates != null)
+        {
+            $templates = array_map('trim', explode('<br />', nl2br($templates)));
 
-        $item = $event->getTarget()->vars()->resource;
-        if ($item->resourceTemplate()) {
-            if (in_array($item->resourceTemplate()->label(), $templates))
-            {
-                echo $view->addReferenceForm($view->vars()->resource);
-            }
-            elseif ($item->resourceTemplate()->label() == "Bibl") 
-            {
-                echo $view->referencedItemsWidget();
+            $view = $event->getTarget();
+
+            $item = $event->getTarget()->vars()->resource;
+            if ($item->resourceTemplate()) {
+                if (in_array($item->resourceTemplate()->label(), $templates))
+                {
+                    echo $view->addReferenceForm($view->vars()->resource);
+                }
+                elseif ($item->resourceTemplate()->label() == "Bibl") 
+                {
+                    echo $view->referencedItemsWidget();
+                }
             }
         }
     }
